@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -22,7 +23,29 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void insert(Seller sel) {
-		Pre
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("INSERT INTO seller (Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+ "VALUES (?, ?, ?, ?, ?)");
+			st.setString(1, "Victor");
+			st.setString(2, "victor@victor.com");
+			st.setDate(3, (java.sql.Date) new Date("16/06/2002"));
+			st.setDouble(4, 1000.00);
+			st.setInt(5, 1);
+
+			if (rs.next()) {
+				System.out.println("Seller Created!");
+			} else {
+				System.out.println("Error!");
+			}
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
@@ -103,8 +126,7 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 }
