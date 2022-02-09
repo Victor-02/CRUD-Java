@@ -22,20 +22,50 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void insert(Seller sel) {
-		// TODO Auto-generated method stub
-
+		Pre
 	}
 
 	@Override
 	public void update(Seller sel) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("UPDATE seller " + "WHERE seller.Id = ? " + "SET Name = ?");
+			st.setInt(1, 2);
+			st.setString(2, "Jhon");
+			if (rs.next()) {
+				System.out.println("ID updated!");
+			} else {
+				System.out.println("ID not found!");
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeStatement(st);
+		}
 
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller WHERE seller.Id = ?");
+			st.setInt(1, 2);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				System.out.println("ID deleted!");
+			} else {
+				System.out.println("ID not found!");
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
